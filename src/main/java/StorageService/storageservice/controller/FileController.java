@@ -22,6 +22,7 @@ public class FileController {
     public ResponseEntity<String > uploadFile(@RequestParam(name = "file")MultipartFile multipartFile) throws IOException {
 
        String fileuploaded= storageService.uploadFile(multipartFile);
+
         return ResponseEntity.status(HttpStatus.OK).body(fileuploaded);
     }
 
@@ -30,6 +31,15 @@ public class FileController {
        byte[] fileData=  storageService.downloadFile(fileNamee);
 
        return  ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(fileData);
+
+    }
+
+    @PostMapping("/excel")
+
+    public ResponseEntity<String > excelUpload(@RequestParam(name = "excel")MultipartFile multipartFile) throws IOException {
+
+       String response= storageService.excelUpload(multipartFile);
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
     }
 

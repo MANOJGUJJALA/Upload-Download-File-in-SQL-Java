@@ -50,6 +50,7 @@ public class StorageService {
         System.out.println(" name is "+name);
        Optional<FileData>dbfileData= storageRepository.findByName(name);
 
+        System.out.println("obtaoined is "+ dbfileData);
 
        byte[] requiredFileData=FileUtils.decompressFile(dbfileData.get().getFileData());
 
@@ -60,6 +61,7 @@ public class StorageService {
     @Transactional
     public String  excelUpload(MultipartFile multipartFile) throws IOException {
 
+        System.out.println("file name "+multipartFile.getOriginalFilename());
 
         List<List<String>> rows = new ArrayList<>();
 

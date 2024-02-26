@@ -1,6 +1,7 @@
 package StorageService.storageservice.service;
 
 import StorageService.storageservice.FileUtils.FileUtils;
+import StorageService.storageservice.dto.Studentdto;
 import StorageService.storageservice.modal.FileData;
 import StorageService.storageservice.modal.Student;
 import StorageService.storageservice.repository.StorageRepository;
@@ -107,9 +108,13 @@ public class StorageServiceTest {
         InputStream inputStream = new FileInputStream(filePath);
         MockMultipartFile file = new MockMultipartFile("file", fileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", inputStream);
 
-
+        Studentdto studentdto = new Studentdto();
+        studentdto.setName("studentdto");
+        studentdto.setAge("50");
+        studentdto.setEmail("email@email.com");
+        studentdto.setUniversity("studentDtoUni");
         // Act
-        String result = storageService.excelUpload(file);
+        String result = storageService.excelUpload(file,studentdto);
 
         // Assert
 //        System.out.println("result is "+result);

@@ -1,7 +1,10 @@
 package StorageService.storageservice.controller;
 
+import StorageService.storageservice.dto.Studentdto;
 import StorageService.storageservice.modal.FileData;
 import StorageService.storageservice.service.StorageService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,9 @@ public class FileController {
 
     @Autowired
     private  StorageService storageService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @PostMapping("/upload")
     public ResponseEntity<String > uploadFile(@RequestParam(name = "file")MultipartFile multipartFile) throws IOException {
@@ -41,9 +47,20 @@ public class FileController {
 
     @PostMapping("/excel")
 
-    public ResponseEntity<String > excelUpload(@RequestParam(name = "excel")MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<String > excelUpload( @RequestParam ("studentDtoJson")String studentDtoJson,@RequestParam(name = "excel")MultipartFile multipartFile) throws IOException {
 
-       String response= storageService.excelUpload(multipartFile);
+        System.out.println("came in controller"+studentDtoJson);
+        Studentdto studentdto=null;
+
+        try{
+
+         studentdto=objectMapper.readValue(studentDtoJson,Studentdto.class);
+            System.out.println("processed is "+studentdto);
+        }
+        catch (JsonProcessingException e){
+            throw new RuntimeException();
+        }
+       String response= storageService.excelUpload(multipartFile,studentdto);
         return new ResponseEntity<>(response,HttpStatus.OK);
 
     }

@@ -1,6 +1,7 @@
 package StorageService.storageservice.service;
 
 import StorageService.storageservice.FileUtils.FileUtils;
+import StorageService.storageservice.dto.Studentdto;
 import StorageService.storageservice.modal.FileData;
 import StorageService.storageservice.modal.Student;
 import StorageService.storageservice.repository.StorageRepository;
@@ -60,7 +61,7 @@ public class StorageService {
     }
 
     @Transactional
-    public String  excelUpload(MultipartFile multipartFile) throws IOException {
+    public String  excelUpload(MultipartFile multipartFile,Studentdto studentdto) throws IOException {
 
         System.out.println("file name "+multipartFile.getOriginalFilename());
 
@@ -85,6 +86,14 @@ public class StorageService {
             excelData.setUniversity(row.get(3));
             return excelData;
         }).collect(Collectors.toList());
+
+        Student newStudent=new Student();
+        newStudent.setName(studentdto.getName());
+        newStudent.setAge(studentdto.getAge());
+        newStudent.setEmail(studentdto.getEmail());
+        newStudent.setUniversity(studentdto.getUniversity());
+
+        excelDataList.add(newStudent);
         studentRepository.saveAll(excelDataList);
 
       return "Excel Sheet"+  multipartFile.getOriginalFilename()+" Successfully Uploaded";

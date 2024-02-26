@@ -29,7 +29,7 @@ public class StorageService {
     private StudentRepository studentRepository;
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
-       Optional<FileData>fileData = Optional.of(storageRepository.save(FileData.builder()
+       Optional<FileData>fileData = Optional.ofNullable(storageRepository.save(FileData.builder()
                .name(multipartFile.getOriginalFilename())
                .type(multipartFile.getContentType())
                .fileData(FileUtils.compressFile(multipartFile.getBytes()))
@@ -40,7 +40,7 @@ public class StorageService {
        }
        FileData fileData1=fileData.get();
 
-       return "File Uploaded Succesfully "+ multipartFile.getOriginalFilename();
+       return "File Uploaded Successfully "+ multipartFile.getOriginalFilename();
 
     }
 
@@ -87,20 +87,15 @@ public class StorageService {
         }).collect(Collectors.toList());
         studentRepository.saveAll(excelDataList);
 
-      return "Excel Sheet"+  multipartFile.getOriginalFilename()+" Succesfully Uploaded";
+      return "Excel Sheet"+  multipartFile.getOriginalFilename()+" Successfully Uploaded";
     }
 
-    private String getCellStringValue(Cell cell) {
+    private   String getCellStringValue(Cell cell) {
         CellType cellType = cell.getCellType();
-
         if (cellType == CellType.STRING) {
             return cell.getStringCellValue();
         } else if (cellType == CellType.NUMERIC) {
             return String.valueOf(cell.getNumericCellValue());
         } else if (cellType == CellType.BOOLEAN) {
-            return String.valueOf(cell.getBooleanCellValue());
-        }
-
-        return null;
-    }
-}
+            return String.valueOf(cell.getBooleanCellValue());}
+        return null;}}

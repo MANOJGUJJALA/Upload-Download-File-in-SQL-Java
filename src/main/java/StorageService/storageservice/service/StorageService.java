@@ -50,10 +50,11 @@ public class StorageService {
         System.out.println(" name is "+name);
        Optional<FileData>dbfileData= storageRepository.findByName(name);
 
-        System.out.println("obtaoined is "+ dbfileData);
+//        System.out.println("obtaoined is "+ dbfileData);
 
        byte[] requiredFileData=FileUtils.decompressFile(dbfileData.get().getFileData());
 
+        System.out.println("required filedata is "+requiredFileData);
 
        return requiredFileData;
     }

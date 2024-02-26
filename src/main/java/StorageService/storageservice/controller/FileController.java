@@ -30,7 +30,10 @@ public class FileController {
 
     @GetMapping("/download/{fileName}")
     public ResponseEntity<?> downloadFile(@PathVariable(name = "fileName")String fileNamee){
+        System.out.println("calling ----");
        byte[] fileData=  storageService.downloadFile(fileNamee);
+
+        System.out.println("filedata in byte is "+ fileData);
 
        return  ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(fileData);
 
